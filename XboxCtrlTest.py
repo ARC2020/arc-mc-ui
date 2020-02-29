@@ -8,8 +8,8 @@ while True:
             print('Found a controller and connected')
             while controller.connected:
                 presses = controller.check_presses()
-                #if controller.presses.cross:
-                 #   print("A")
+                if controller.presses.cross:
+                    print("A")
                 if controller.presses.square:
                     print("X")
                 if controller.presses.triangle:
@@ -30,8 +30,25 @@ while True:
                     print("LB")
                 if controller.presses.r1:
                     print("RB")
-                    
-                if controller.presses.cross:
+                if controller.presses.l2:
+                    print("2-LT")
+                if controller.presses.r2:
+                    print("2-RT")
+                if controller.presses.lt:
+                    print("T-LT")
+                if controller.presses.rt:
+                    print("T-RT")
+                if controller.presses.dleft:
+                    print("DPad Left")
+                elif controller.presses.dright:
+                    print("DPad Right")
+                elif controller.presses.dup:
+                    print("DPad Up")
+                elif controller.presses.ddown:
+                    print("DPad Down")
+                #if controller.presses.cross:
+                if 0:
+                    print("inside large conditional")
                     left_x, left_y = controller.l
                     right_x, right_y = controller.r
                     lt = controller.l2
