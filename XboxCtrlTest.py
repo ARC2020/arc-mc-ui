@@ -2,6 +2,11 @@ from approxeng.input.selectbinder import ControllerResource
 from approxeng.input.xboxone import WiredXBoxOneSPad
 from time import sleep
 
+prevLx = 0
+prevLy = 0
+prevRx = 0
+prevRy = 0
+
 while True:
     try:
         with ControllerResource() as controller:
@@ -46,6 +51,19 @@ while True:
                     print("DPad Up")
                 elif controller.presses.ddown:
                     print("DPad Down")
+                # joystick
+                leftX = controller.lx 
+                leftY = controller.ly
+                rightX = controller.rx
+                rightY = controller.ry
+                if leftX != prevLx or leftY != prevLy:
+                    print("Left: X=",leftX," Y=",leftY)
+                    prevLx = leftX
+                    prevLy = leftY
+                if rightX != prevRx or rightY != prevRy:
+                    print("Right: X=",rightX," Y=",rightY)
+                    prevRx = rightX
+                    prevRy = rightY
                 #if controller.presses.cross:
                 if 0:
                     print("inside large conditional")
