@@ -2,15 +2,13 @@ import tkinter as tk
 import threading
 import tkinter.font as tkFont
 import gc
+#import globalsUI
+import modules.arc-mc-ui.globalsUI as globalsUI
 from PIL import ImageTk, Image
 from tkinter import messagebox
 
 # remove this later - only used in main script
 from time import sleep
-
-# TODO global flags (should be declared elsewhere)
-temp_is_started = False
-temp_auto_mode = False
 
 
 class AppARC(threading.Thread):
@@ -39,8 +37,7 @@ class AppARC(threading.Thread):
         """ Set a flag to start the trike.
 
         """
-        global temp_is_started
-        temp_is_started = True
+        globalsUI.is_trike_started = True
         self.btn_start.configure(state='disabled', bg=AppARC.bg_color)
         self.btn_end.configure(state='active', bg='pale green')
 
@@ -48,8 +45,7 @@ class AppARC(threading.Thread):
         """ Set a flag to stop the trike.
 
         """
-        global temp_is_started
-        temp_is_started = False
+        globalsUI.is_trike_started = False
         self.btn_end.configure(state='disabled', bg=AppARC.bg_color)
         self.btn_start.configure(state='active', bg='pale green')
 
@@ -57,9 +53,8 @@ class AppARC(threading.Thread):
         """ Set a flag to toggle the mode.
 
         """
-        global temp_auto_mode
-        temp_auto_mode = not temp_auto_mode
-        if temp_auto_mode:
+        globalsUI.is_auto_mode = not globalsUI.is_auto_mode
+        if globalsUI.is_auto_mode:
             self.btn_toggle_mode.configure(text='Switch to Manual Mode')
         else:
             self.btn_toggle_mode.configure(text='Switch to Auto Mode')
@@ -295,28 +290,26 @@ class AppARC(threading.Thread):
             0, 0, anchor=tk.NW, image=self.image, state='normal')
 
 
-#####################################
-# Main script
-#####################################
-newApp = AppARC()
-newApp.start()
+if __name__ == 'main':
+    newApp = AppARC()
+    newApp.start()
 
-# Loading screen timer - for testing
-i = 0
-while i < 200000:
-    print(i)
-    i += 1
+    # Loading screen timer - for testing
+    i = 0
+    while i < 200000:
+        print(i)
+        i += 1
 
-# Call newApp.raise_main_frame() when loading is complete
-newApp.raise_main_frame()
+    # Call newApp.raise_main_frame() when loading is complete
+    newApp.raise_main_frame()
 
-# Test if UI thread is responsive while counter increments and prints
-i = 0
-while i < 200000:
-    print(i)
-    i += 1
+    # Test if UI thread is responsive while counter increments and prints
+    i = 0
+    while i < 200000:
+        print(i)
+        i += 1
 
-# display images
-newApp.display_image(r'/home/pi/Pictures/trike1.png')
-sleep(5)
-newApp.display_image(r'/home/pi/Pictures/trike2.png')
+    # display images
+    newApp.display_image(r'/home/pi/Pictures/trike1.png')
+    sleep(5)
+    newApp.display_image(r'/home/pi/Pictures/trike2.png')

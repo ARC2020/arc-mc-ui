@@ -70,23 +70,21 @@ class XboxCtrl():
         self.controller = None
 
 
-#####################################
-# Main script
-#####################################
-my_controller = XboxCtrl()
-reconnect_attempts = 10
-while True:
-    if my_controller.is_connected():
-        print(my_controller.get_throttle_position())
-        print(my_controller.get_steering_position())
-        print(my_controller.check_brake())
-        sleep(2)
-    else:
-        temp = my_controller.reconnect()
-        reconnect_attempts += -1
-        print('trying to reconnect ')
-        sleep(2)
+if __name__ == '__main__':
+    my_controller = XboxCtrl()
+    reconnect_attempts = 10
+    while True:
+        if my_controller.is_connected():
+            print(my_controller.get_throttle_position())
+            print(my_controller.get_steering_position())
+            print(my_controller.check_brake())
+            sleep(2)
+        else:
+            temp = my_controller.reconnect()
+            reconnect_attempts += -1
+            print('trying to reconnect ')
+            sleep(2)
 
-    if reconnect_attempts == 0:
-        my_controller.deinit()
-        break
+        if reconnect_attempts == 0:
+            my_controller.deinit()
+            break
