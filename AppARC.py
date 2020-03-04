@@ -2,8 +2,8 @@ import tkinter as tk
 import threading
 import tkinter.font as tkFont
 import gc
-#import globalsUI
-import modules.arc-mc-ui.globalsUI as globalsUI
+# import globalsUI
+import modules.arc_mc_ui.globalsUI as globalsUI
 from PIL import ImageTk, Image
 from tkinter import messagebox
 
