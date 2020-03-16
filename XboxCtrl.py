@@ -26,7 +26,10 @@ class XboxCtrl():
             Returns zero if RB is not pressed.
 
         """
-        return self.controller['r1']
+        status = self.controller['r1']
+        if status is None:
+            status = 0
+        return status
 
     def connect(self):
         """ Try to connect to a controller that has LeftStick, RightStick and RBbutton.
