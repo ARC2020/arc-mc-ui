@@ -59,7 +59,7 @@ class AppARC(threading.Thread):
         """
         if set_auto_mode is not None:
             self.is_auto_mode = set_auto_mode
-        else
+        else:
             self.is_auto_mode = not self.is_auto_mode
 
         if self.is_auto_mode:
@@ -305,7 +305,7 @@ class AppARC(threading.Thread):
             0, 0, anchor=tk.NW, image=self.image, state='normal')
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     newApp = AppARC()
     newApp.start()
 
@@ -325,14 +325,14 @@ if __name__ == 'main':
         i += 1
 
     # display images
-    #newApp.display_image(r'/home/pi/Pictures/trike1.png')
-    #sleep(5)
-    #newApp.display_image(r'/home/pi/Pictures/trike2.png')
+    newApp.display_image(r'/home/pi/Pictures/trike1.png')
+    sleep(5)
+    newApp.display_image(r'/home/pi/Pictures/trike2.png')
     
     response = newApp.show_yesno_prompt('Testing', 'Obstacle detected. Would you like to switch to manual mode?')
     if response:
-       newApp.toggle_mode(False) #toggle to manual mode
+        newApp.toggle_mode(False) #toggle to manual mode
     sleep(5)
-    newApp.show_info_prompt('Completed Testing prompts')
+    newApp.show_info_prompt('Testing', 'Completed Testing prompts')
 
     
