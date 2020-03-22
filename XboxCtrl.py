@@ -4,8 +4,9 @@ from time import sleep
 
 
 class XboxCtrl():
-    def __init__(self):
+    def __init__(self, simulationMode = False):
         self.controller = None
+        self.simulationMode = simulationMode
         self.unbind_function = None
         self.connect()
 
@@ -62,6 +63,9 @@ class XboxCtrl():
         """ Retruns TRUE if connected, FALSE otherwise.
 
         """
+        if simulationMode:
+            return True
+
         if self.controller is None:
             return False
 
