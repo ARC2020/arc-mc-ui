@@ -2,8 +2,6 @@ import tkinter as tk
 import threading
 import tkinter.font as tkFont
 import gc
-# import globalsUI
-import modules.arc_mc_ui.globalsUI as globalsUI
 from PIL import ImageTk, Image
 from tkinter import messagebox
 
@@ -20,6 +18,8 @@ class AppARC(threading.Thread):
         threading.Thread.__init__(self)
         self.__stop = threading.Event()
         self.fullscreen = False
+        self.is_trike_started = False
+        self.is_auto_mode = False
         self.root = None
         self.main_frame = None
         self.loading_frame = None
@@ -37,7 +37,7 @@ class AppARC(threading.Thread):
         """ Set a flag to start the trike.
 
         """
-        globalsUI.is_trike_started = True
+        self.is_trike_started = True
         self.btn_start.configure(state='disabled', bg=AppARC.bg_color)
         self.btn_end.configure(state='active', bg='pale green')
 
@@ -45,16 +45,24 @@ class AppARC(threading.Thread):
         """ Set a flag to stop the trike.
 
         """
-        globalsUI.is_trike_started = False
+        self.is_trike_started = False
         self.btn_end.configure(state='disabled', bg=AppARC.bg_color)
         self.btn_start.configure(state='active', bg='pale green')
 
-    def toggle_mode(self):
+    def toggle_mode(self, set_auto_mode = None):
         """ Set a flag to toggle the mode.
+            If optional parameter set_auto_mode is not specified - toggle mode
+            If set_auto_mode is specified - set the mode accordingly
+                --set_auto_mode = True => change to auto mode
+                --set_auto_moe = False => change to manual mode
 
         """
-        globalsUI.is_auto_mode = not globalsUI.is_auto_mode
-        if globalsUI.is_auto_mode:
+        if set_auto_mode is not None:
+            self.is_auto_mode = set_auto_mode
+        else
+            self.is_auto_mode = not self.is_auto_mode
+
+        if self.is_auto_mode:
             self.btn_toggle_mode.configure(text='Switch to Manual Mode')
         else:
             self.btn_toggle_mode.configure(text='Switch to Auto Mode')
@@ -242,6 +250,13 @@ class AppARC(threading.Thread):
     def raise_main_frame(self):
         self.main_frame.tkraise()
 
+    def show_yesno_prompt(self, title, message):
+        response = messagebox.askyesno(title, message)
+        return response
+    
+    def show_info_prompt(self, title, message):
+        messagebox.showinfo(title, message)
+
     def run(self):
         # Create the main window
         self.root = tk.Tk()
@@ -310,6 +325,14 @@ if __name__ == 'main':
         i += 1
 
     # display images
-    newApp.display_image(r'/home/pi/Pictures/trike1.png')
+    #newApp.display_image(r'/home/pi/Pictures/trike1.png')
+    #sleep(5)
+    #newApp.display_image(r'/home/pi/Pictures/trike2.png')
+    
+    response = newApp.show_yesno_prompt('Testing', 'Obstacle detected. Would you like to switch to manual mode?')
+    if response:
+       newApp.toggle_mode(False) #toggle to manual mode
     sleep(5)
-    newApp.display_image(r'/home/pi/Pictures/trike2.png')
+    newApp.show_info_prompt('Completed Testing prompts')
+
+    
