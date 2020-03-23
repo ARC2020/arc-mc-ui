@@ -2,9 +2,8 @@ from approxeng.input.selectbinder import bind_controllers
 from approxeng.input.selectbinder import find_matching_controllers, ControllerRequirement
 from time import sleep
 
-
 class XboxCtrl():
-    def __init__(self, simulationMode = False):
+    def __init__(self, simulationMode=False):
         self.controller = None
         self.simulationMode = simulationMode
         self.unbind_function = None
@@ -14,29 +13,41 @@ class XboxCtrl():
         """ Returns the left joystick x position.
 
         """
-        return self.controller.lx
+        if self.simulationMode:
+            return 0
+        else:
+            return self.controller.lx
 
     def get_throttle_position(self):
         """ Returns the right joystick y position.
 
         """
-        return self.controller.ry
+        if self.simulationMode:
+            return 0
+        else:
+            return self.controller.ry
 
     def check_brake(self):
         """ Returns the number of seconds for which RB is held.
             Returns zero if RB is not pressed.
 
         """
-        status = self.controller['r1']
-        if status is None:
-            status = 0
-        return status
+        if self.simulationMode:
+            return 0
+        else: 
+            status = self.controller['r1']
+            if status is None:
+                status = 0
+            return status
 
     def connect(self):
         """ Try to connect to a controller that has LeftStick, RightStick and RBbutton.
             Returns TRUE if successful, FALSE otherwise.
 
         """
+        if self.simulationMode:
+            return
+
         try:
             discovery = find_matching_controllers(ControllerRequirement(
                 require_snames=['lx', 'ly', 'rx', 'ry', 'r1']))[0]
@@ -54,6 +65,9 @@ class XboxCtrl():
             Retruns TRUE if successful, FALSE otherwise.
 
         """
+        if self.simulationMode:
+            return
+
         if self.controller is None or (not self.controller.connected):
             return self.connect()
         else:
@@ -63,7 +77,7 @@ class XboxCtrl():
         """ Retruns TRUE if connected, FALSE otherwise.
 
         """
-        if simulationMode:
+        if self.simulationMode:
             return True
 
         if self.controller is None:

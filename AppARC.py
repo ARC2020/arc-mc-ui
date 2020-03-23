@@ -4,8 +4,6 @@ import tkinter.font as tkFont
 import gc
 from PIL import ImageTk, Image
 from tkinter import messagebox
-
-# remove this later - only used in main script
 from time import sleep
 
 
@@ -249,6 +247,9 @@ class AppARC(threading.Thread):
 
     def raise_main_frame(self):
         self.main_frame.tkraise()
+
+    def display_speed(self, speed_kmph):
+        pass
 
     def show_yesno_prompt(self, title, message):
         response = messagebox.askyesno(title, message)
