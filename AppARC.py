@@ -2,9 +2,12 @@ import tkinter as tk
 import threading
 import tkinter.font as tkFont
 import gc
-from PIL import ImageTk, Image
 from tkinter import messagebox
 from time import sleep
+try:
+    from PIL import ImageTk, Image
+except:
+    pass
 
 
 class AppARC(threading.Thread):
@@ -30,6 +33,7 @@ class AppARC(threading.Thread):
         self.btn_toggle_mode = None
         self.canvas = None
         self.image = None
+        self.lbl_speed_kmph = None
 
     def start_trip(self):
         """ Set a flag to start the trike.
@@ -147,6 +151,20 @@ class AppARC(threading.Thread):
                              fg='black',
                              bg=AppARC.bg_color,
                              justify=tk.CENTER)
+        
+        lbl_speed_title = tk.Label(self.main_frame,
+                                   text='Speed:',
+                                   font=self.font_txt,
+                                   fg='black',
+                                   bg=AppARC.bg_color,
+                                   justify=tk.RIGHT)
+        
+        self.lbl_speed_kmph = tk.Label(self.main_frame,
+                                  text='0.00 km/h',
+                                  font=self.font_txt,
+                                  fg='black',
+                                  bg=AppARC.bg_color,
+                                  justify=tk.LEFT)
 
         self.btn_toggle_fullscreen = tk.Button(self.main_frame,
                                                text='Exit Fullscreen',
@@ -214,6 +232,8 @@ class AppARC(threading.Thread):
         lbl_instructions.grid(row=3, column=0, padx=10, pady=10, columnspan=1, sticky='w')
         self.canvas.grid(row=3, column=1, padx=10, pady=10, sticky='nsew')
         self.btn_toggle_fullscreen.grid(row=4, column=1, padx=10, pady=10, sticky=tk.E)
+        self.lbl_speed_kmph.grid(row=4, column=1, padx=5, pady=10, sticky=tk.W)
+        lbl_speed_title.grid(row=4, column=0, padx=5, pady=10, sticky=tk.E)
         self.btn_quit.grid(row=4, column=0, padx=10, pady=10, sticky=tk.W)
 
         # Make it so that the grid cells expand out to fill window
@@ -243,13 +263,14 @@ class AppARC(threading.Thread):
             self.btn_end = None
             self.btn_toggle_mode = None
             self.canvas = None
+            self.lbl_speed_kmph = None
             gc.collect()
 
     def raise_main_frame(self):
         self.main_frame.tkraise()
 
-    def display_speed(self, speed_kmph):
-        pass
+    def display_speed(self, speed_kmph: float):
+        self.lbl_speed_kmph['text'] = "{0:.2f} km/h".format(speed_kmph)
 
     def show_yesno_prompt(self, title, message):
         response = messagebox.askyesno(title, message)
@@ -312,7 +333,7 @@ if __name__ == '__main__':
 
     # Loading screen timer - for testing
     i = 0
-    while i < 200000:
+    while i < 1000: #200000
         print(i)
         i += 1
 
@@ -321,19 +342,21 @@ if __name__ == '__main__':
 
     # Test if UI thread is responsive while counter increments and prints
     i = 0
-    while i < 200000:
+    while i < 1000: #200000
         print(i)
         i += 1
 
     # display images
-    newApp.display_image(r'/home/pi/Pictures/trike1.png')
-    sleep(5)
-    newApp.display_image(r'/home/pi/Pictures/trike2.png')
+    #newApp.display_image(r'/home/pi/Pictures/trike1.png')
+    #sleep(5)
+    #newApp.display_image(r'/home/pi/Pictures/trike2.png')
     
     response = newApp.show_yesno_prompt('Testing', 'Obstacle detected. Would you like to switch to manual mode?')
     if response:
         newApp.toggle_mode(False) #toggle to manual mode
-    sleep(5)
+    #sleep(5)
     newApp.show_info_prompt('Testing', 'Completed Testing prompts')
+
+    newApp.display_speed(5.11111111)
 
     
