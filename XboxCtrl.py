@@ -1,5 +1,8 @@
-from approxeng.input.selectbinder import bind_controllers
-from approxeng.input.selectbinder import find_matching_controllers, ControllerRequirement
+try:
+    from approxeng.input.selectbinder import bind_controllers
+    from approxeng.input.selectbinder import find_matching_controllers, ControllerRequirement
+except:
+    pass
 from time import sleep
 
 class XboxCtrl():
