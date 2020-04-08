@@ -263,6 +263,7 @@ class AppARC(threading.Thread):
             self.btn_end = None
             self.btn_toggle_mode = None
             self.canvas = None
+            self.image = None
             self.lbl_speed_kmph = None
             gc.collect()
 
@@ -318,9 +319,10 @@ class AppARC(threading.Thread):
         self.loading_frame.tkraise()
         self.root.mainloop()
 
-    def display_image(self, file_path):
+    def display_image(self, img_array):
         self.canvas.delete('all')
-        img = Image.open(file_path)
+        #img = Image.open(file_path)
+        img = Image.fromarray(img_array)
         img = img.resize((self.canvas.winfo_width(), self.canvas.winfo_height()), Image.ANTIALIAS)
         self.image = ImageTk.PhotoImage(img)
         self.canvas.image = self.canvas.create_image(
@@ -328,6 +330,7 @@ class AppARC(threading.Thread):
 
 
 if __name__ == '__main__':
+    import imageio
     newApp = AppARC()
     newApp.start()
 
@@ -347,14 +350,16 @@ if __name__ == '__main__':
         i += 1
 
     # display images
-    #newApp.display_image(r'/home/pi/Pictures/trike1.png')
-    #sleep(5)
-    #newApp.display_image(r'/home/pi/Pictures/trike2.png')
+    img_array = imageio.imread(r'C:\Users\munif\Desktop\test.png')
+    newApp.display_image(img_array)
+    sleep(5)
+    img_array = imageio.imread(r'C:\Users\munif\Desktop\test2.png')
+    newApp.display_image(img_array)
     
     response = newApp.show_yesno_prompt('Testing', 'Obstacle detected. Would you like to switch to manual mode?')
     if response:
         newApp.toggle_mode(False) #toggle to manual mode
-    #sleep(5)
+    sleep(5)
     newApp.show_info_prompt('Testing', 'Completed Testing prompts')
 
     newApp.display_speed(5.11111111)
