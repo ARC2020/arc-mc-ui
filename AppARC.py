@@ -133,9 +133,9 @@ class AppARC(threading.Thread):
         txt_instructions.set("""INSTRUCTIONS\n
 (1) Use the brake levers to stop the trike
         and take manual control at any time.
-(2) While in manual mode, you may use
-        the thumb joysticks to steer the trike.
-(3) Press the emergency stop button to
+(2) In manual mode, you may use the Xbox
+        controller to steer and drive the trike.
+(3) Flip the emergency stop switch to
         turn off power and stop the trike.""")
 
         # Widgets
