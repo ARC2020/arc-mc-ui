@@ -68,6 +68,7 @@ class AppARC(threading.Thread):
             self.btn_toggle_mode.configure(text='Switch to Manual Mode')
         else:
             self.btn_toggle_mode.configure(text='Switch to Auto Mode')
+            self.clear_image() #clear the image in manual mode
 
     def toggle_fullscreen(self, event=None):
         """ Toggle between fullscreen and windowed modes.
@@ -320,14 +321,16 @@ class AppARC(threading.Thread):
         self.root.mainloop()
 
     def display_image(self, img_array):
-        self.canvas.delete('all')
+        self.clear_image()
         #img = Image.open(file_path)
         img = Image.fromarray(img_array)
         img = img.resize((self.canvas.winfo_width(), self.canvas.winfo_height()), Image.ANTIALIAS)
         self.image = ImageTk.PhotoImage(img)
         self.canvas.image = self.canvas.create_image(
             0, 0, anchor=tk.NW, image=self.image, state='normal')
-
+    
+    def clear_image(self):
+        self.canvas.delete('all')
 
 if __name__ == '__main__':
     import imageio
