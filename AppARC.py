@@ -271,8 +271,8 @@ class AppARC(threading.Thread):
     def raise_main_frame(self):
         self.main_frame.tkraise()
 
-    def display_speed(self, speed_kmph: float):
-        self.lbl_speed_kmph['text'] = "{0:.2f} km/h".format(speed_kmph)
+    def display_speed(self, speed_mps: float):
+        self.lbl_speed_kmph['text'] = "{0:.2f} m/s".format(speed_mps)
 
     def show_yesno_prompt(self, title, message):
         response = messagebox.askyesno(title, message)
@@ -321,7 +321,6 @@ class AppARC(threading.Thread):
         self.root.mainloop()
 
     def display_image(self, img_array):
-        self.clear_image()
         #img = Image.open(file_path)
         img = Image.fromarray(img_array)
         img = img.resize((self.canvas.winfo_width(), self.canvas.winfo_height()), Image.ANTIALIAS)
@@ -353,17 +352,17 @@ if __name__ == '__main__':
         i += 1
 
     # display images
-    img_array = imageio.imread(r'C:\Users\munif\Desktop\test.png')
+    img_array = imageio.imread(r'\test.png')
     newApp.display_image(img_array)
     sleep(5)
-    img_array = imageio.imread(r'C:\Users\munif\Desktop\test2.png')
+    img_array = imageio.imread(r'\test2.png')
     newApp.display_image(img_array)
     
     response = newApp.show_yesno_prompt('Testing', 'Obstacle detected. Would you like to switch to manual mode?')
     if response:
         newApp.toggle_mode(False) #toggle to manual mode
     sleep(5)
-    newApp.show_info_prompt('Testing', 'Completed Testing prompts')
+    newApp.show_info_prompt('Obstacle Detected', 'An obstacle was detected. Please click OK to switch to manual drive mode.')
 
     newApp.display_speed(5.11111111)
 
